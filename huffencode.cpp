@@ -3,6 +3,7 @@
 //01/04/2015
 #include <string>
 #include <iostream>
+#include <queue>
 #include <unordered_map>
 #include <fstream>
 #include "HuffmanNode.h"
@@ -15,11 +16,12 @@ int main(int argc, char * argv[])
 	//Read in the txt file to compress and add each char
 	//to an unordered_map
 	string inputFile = string(argv[1]);
+	BRMALA003::HuffmanTree tree;
+	//BRMALA003::HuffmanNode node;
 	string line;
 	char c;
 	ifstream i(inputFile.c_str());
 	unordered_map<char,int> charfreqmap;
-
 	if (!i)
 	{
 	  cout << "Couldn't open the file to decompress" << endl;
@@ -35,6 +37,7 @@ int main(int argc, char * argv[])
 			//Insert a new char into the map 
 			if (charfreqmap.count(c)==0)
 			{
+				BRMALA003::HuffmanNode node
 				charfreqmap.insert({c,1});
 			}
 			else
@@ -48,7 +51,8 @@ int main(int argc, char * argv[])
 					}
 					else
 					{
-						found->second=found->second++;
+						//Add to the frequency
+						found->second++;
 					}
 				
 			}	
