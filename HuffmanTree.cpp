@@ -8,8 +8,13 @@
 #include <memory>
 namespace BRMALA003
 {
-	//Comparator Comparator;
-	std::shared_ptr<HuffmanNode> HuffmanTree::createTree(std::priority_queue<HuffmanNode,std::vector<HuffmanNode>,Comparator> q)
+	using namespace std;
+	HuffmanTree::HuffmanTree()
+	{
+	//this->q=q(compare); 
+	q= q(compare);
+	}
+	shared_ptr<HuffmanNode> HuffmanTree::createTree(priority_queue<shared_ptr<HuffmanNode>,vector<shared_ptr<HuffmanNode>>,fptr> q)
 	{
 		//for (i=q.begin();i!=q.end();i++)
 		//{
@@ -17,11 +22,14 @@ namespace BRMALA003
 		//}
 		return NULL;
 	}
-	std::priority_queue<HuffmanNode,std::vector<HuffmanNode>,Comparator> HuffmanTree::getQueue()
+	priority_queue<shared_ptr<HuffmanNode>,vector<shared_ptr<HuffmanNode>>,fptr> HuffmanTree::getQueue()
 	{
 		return this->q;
 	}
-
+	shared_ptr<HuffmanNode> HuffmanTree::getRoot()
+	{
+		return this->root;
+	}
 
 
 
