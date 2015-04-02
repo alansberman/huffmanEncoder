@@ -7,16 +7,33 @@
 #include <vector>
 #include <memory>
 namespace BRMALA003
-{
-	//HuffmanNode HuffmanNode(char l, int f)
-	
+{	
+	using namespace std;
+	//Constructor
+	HuffmanNode::HuffmanNode(char l, int f)
+	{
+		letter = l;
+		frequency = f;
+		left=NULL;
+		right=NULL;
+	} 
+	HuffmanNode::HuffmanNode(int f)
+	{
+		frequency = f;
+		left=NULL;
+		right=NULL;
+	}
 	int HuffmanNode::getFrequency()
 	{
 		return this->frequency;
 	}
+	shared_ptr<HuffmanNode> HuffmanNode::getLeft()
+	{
+		return this->left;
+	}
+	shared_ptr<HuffmanNode> HuffmanNode::getRight()
+	{
+		return this->right;
+	}
 	
-	
-
-
-
 }
