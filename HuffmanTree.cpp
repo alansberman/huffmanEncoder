@@ -53,17 +53,17 @@ namespace BRMALA003
 	void HuffmanTree::createCodeTable(shared_ptr<HuffmanNode> nodeptr, string code)
 	{
 		
-		if (nodeptr->getLetter() == 0)
+		if (nodeptr)
 		{
-			cout << "The current node doesn't have a letter " << endl;
-			HuffmanTree::createCodeTable(nodeptr->getLeft(),(nodeptr->getCode()+"0"));
+			
+			HuffmanTree::createCodeTable(nodeptr->getLeft(),code+"0");
 			if (nodeptr->getLeft()==NULL && nodeptr->getRight() == NULL)
 			{
-				HuffmanTree::getCodeTable().insert({nodeptr->getLetter(),nodeptr->getCode()});
-				cout << HuffmanTree::getCodeTable().size() << " is the code table's size" << endl;
+				HuffmanTree::getCodeTable().insert({nodeptr->getLetter(),code});
+				
 			}
-			cout << "Branching right " << endl;
-			HuffmanTree::createCodeTable(nodeptr->getRight(),nodeptr->getCode()+"1");
+			
+			HuffmanTree::createCodeTable(nodeptr->getRight(),code+"1");
 		}
 	}
 	unordered_map<char,string>& HuffmanTree::getCodeTable()

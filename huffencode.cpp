@@ -13,20 +13,7 @@
 
 //Driver that makes
 using namespace std;
-/*namespace BRMALA003{
-	
-bool compare(HuffmanNode &a, HuffmanNode &b)
-	{
-	if (a.getFrequency()>b.getFrequency())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-}*/
+
 int main(int argc, char * argv[]) //
 {
 	//Read in the txt file to compress and add each char
@@ -60,8 +47,8 @@ int main(int argc, char * argv[]) //
 			}
 			else
 			{
-				//Add 1 to the frequency of the given char
-				//Adapted from http://www.cplusplus.com/reference/unordered_map/unordered_map/find/
+					//Add 1 to the frequency of the given char
+					//Adapted from http://www.cplusplus.com/reference/unordered_map/unordered_map/find/
 					unordered_map<char,int>::iterator found = charfreqmap.find(c);
 					if (found==charfreqmap.end())
 					{
@@ -90,7 +77,7 @@ int main(int argc, char * argv[]) //
 	while (tree.getQueue().size()!=1)
 	{
 		BRMALA003::HuffmanNode topNode = tree.getQueue().top();
-		cout << topNode.getFrequency() << " is the frequency of the top node" << endl;
+		cout << topNode.getFrequency() << " is the frequency of the left node" << endl;
 		shared_ptr<BRMALA003::HuffmanNode> left_ptr = make_shared<BRMALA003::HuffmanNode>(topNode);
 		
 		tree.getQueue().pop();
@@ -98,14 +85,13 @@ int main(int argc, char * argv[]) //
 		if (tree.getQueue().size()!=0)
 		{
 			BRMALA003::HuffmanNode secondFromTop = tree.getQueue().top();
-			cout << secondFromTop.getFrequency() << " is the frequency of the second-from-the-top node" << endl;
+			cout << secondFromTop.getFrequency() << " is the frequency of the right node" << endl;
 			shared_ptr<BRMALA003::HuffmanNode> right_ptr = make_shared<BRMALA003::HuffmanNode>(secondFromTop);
 			tree.getQueue().pop();
 			int sum_of_frequencies = topNode.getFrequency() + secondFromTop.getFrequency();
 			BRMALA003::HuffmanNode parent = BRMALA003::HuffmanNode(sum_of_frequencies);
 			parent.getLeft() = left_ptr;
 			parent.getRight() = right_ptr;
-			cout << parent.getLeft()->getFrequency() << endl;
 			cout << parent.getFrequency() << " is the frequency of the parent node" << endl;
 			tree.getQueue().push(parent);
 			
@@ -116,6 +102,8 @@ int main(int argc, char * argv[]) //
 	BRMALA003::HuffmanNode rootNode = tree.getQueue().top();
 	tree.setRoot(rootNode);
 	cout << rootNode.getFrequency() << " is the frequency of the root node" << endl;
+	cout << rootNode.getLeft()->getFrequency() << " is the root's L child's frequency" <<endl;
+	cout << rootNode.getRight()->getFrequency() << " is the root's R child's frequency" <<endl;
 	tree.createCodeTable(tree.getRoot(),"");
 	for (auto i=tree.getCodeTable().begin();i!=tree.getCodeTable().end();++i)
 	{

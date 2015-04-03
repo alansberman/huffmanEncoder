@@ -15,6 +15,7 @@ namespace BRMALA003 {
 using namespace std;
 //Via the 'Errata' CSC3022H announcement
 typedef bool(*fptr)(HuffmanNode &, HuffmanNode&);
+
 //Compare the frequencies of two nodes
 /*bool compare(const shared_ptr<HuffmanNode> &a,const shared_ptr<HuffmanNode> &b)
 	{
@@ -31,6 +32,7 @@ class HuffmanTree
 {
 	private:
 	shared_ptr<HuffmanNode> root;
+	
 	//Queue of HuffmanNodes using Comparator's compare method
 	priority_queue<HuffmanNode,vector<HuffmanNode>,fptr> q; //q(bool compare)
 	unordered_map<char,string> codeTable;
