@@ -33,6 +33,7 @@ class HuffmanTree
 	shared_ptr<HuffmanNode> root;
 	//Queue of HuffmanNodes using Comparator's compare method
 	priority_queue<HuffmanNode,vector<HuffmanNode>,fptr> q; //q(bool compare)
+	unordered_map<char,string> codeTable;
 	public:
 	HuffmanTree(fptr compare); // constructor //:q(compare){}
 	HuffmanTree(const HuffmanTree & rhs) = default; //Copy Constructor
@@ -41,9 +42,11 @@ class HuffmanTree
 	HuffmanTree & operator=(const HuffmanTree & rhs) = default;
 	HuffmanTree & operator=(HuffmanTree && rhs) = default;
 	~HuffmanTree(void) = default; //Deconstructor
-	shared_ptr<HuffmanNode> createTree(priority_queue<HuffmanNode,vector<HuffmanNode>,fptr> q); //Finds the root node [q(compare)]
+	void setRoot(HuffmanNode h); //Finds the root node [q(compare)]
 	priority_queue<HuffmanNode,vector<HuffmanNode>,fptr>& getQueue();
 	shared_ptr<HuffmanNode> getRoot();
+	unordered_map<char,string>& getCodeTable();
+	void createCodeTable(shared_ptr<HuffmanNode> nodeptr, string code);
 	//void setQueue(priority_queue<shared_ptr<HuffmanNode>,vector<shared_ptr<HuffmanNode>>,fptr>  q);
 };	
 	

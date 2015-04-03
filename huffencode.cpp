@@ -40,6 +40,7 @@ int main(int argc, char * argv[]) //
 	char c;
 	ifstream i(inputFile.c_str());
 	unordered_map<char,int> charfreqmap;
+	
 	if (!i)
 	{
 	  cout << "Couldn't open the file to decompress" << endl;
@@ -83,13 +84,15 @@ int main(int argc, char * argv[]) //
 		cout << it->first << " is the letter, " << it->second << " is its frequency" << endl;
 		BRMALA003::HuffmanNode node = BRMALA003::HuffmanNode(it->first,it->second);
 		tree.getQueue().push(node);
-		cout << tree.getQueue().size() << " is the size of the priority_queue" << endl;
 	}
+	//Take out the smallest 2 nodes, and create a node whose left and right children
+	//are the nodes just taken out
 	while (tree.getQueue().size()!=1)
 	{
 		BRMALA003::HuffmanNode topNode = tree.getQueue().top();
 		cout << topNode.getFrequency() << " is the frequency of the top node" << endl;
 		shared_ptr<BRMALA003::HuffmanNode> left_ptr = make_shared<BRMALA003::HuffmanNode>(topNode);
+		
 		tree.getQueue().pop();
 		
 		if (tree.getQueue().size()!=0)
@@ -99,18 +102,31 @@ int main(int argc, char * argv[]) //
 			shared_ptr<BRMALA003::HuffmanNode> right_ptr = make_shared<BRMALA003::HuffmanNode>(secondFromTop);
 			tree.getQueue().pop();
 			int sum_of_frequencies = topNode.getFrequency() + secondFromTop.getFrequency();
-			BRMALA003::HuffmanNode parent = BRMALA003::HuffmanNode(sum_of_frequencies);//Fix!!! Can't be '0'
+			BRMALA003::HuffmanNode parent = BRMALA003::HuffmanNode(sum_of_frequencies);
 			parent.getLeft() = left_ptr;
 			parent.getRight() = right_ptr;
+			cout << parent.getLeft()->getFrequency() << endl;
 			cout << parent.getFrequency() << " is the frequency of the parent node" << endl;
 			tree.getQueue().push(parent);
 			
 		}
 		
 	}
+	//Set the root node of the HuffmanTree and create the code table
 	BRMALA003::HuffmanNode rootNode = tree.getQueue().top();
+	tree.setRoot(rootNode);
 	cout << rootNode.getFrequency() << " is the frequency of the root node" << endl;
+	tree.createCodeTable(tree.getRoot(),"");
+	for (auto i=tree.getCodeTable().begin();i!=tree.getCodeTable().end();++i)
+	{
+		
+		cout << i->first << " is the letter, " << i->second << " is its string" << endl;
+		//BRMALA003::HuffmanNode node = BRMALA003::HuffmanNode(it->first,it->second);
+		//tree.getQueue().push(node);
+	}
+	
 	return 0;
+	
 }
 
 

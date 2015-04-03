@@ -6,6 +6,7 @@
 #ifndef HUFFMANNODE_H
 #define HUFFMANNODE_H
 #include <memory>
+#include <string>
 namespace BRMALA003 {
 using namespace std;	
 class HuffmanNode 
@@ -13,6 +14,7 @@ class HuffmanNode
 	private:
 	int frequency;
 	char letter;
+	string code; /////////////////////////
 	shared_ptr<HuffmanNode> left;
 	shared_ptr<HuffmanNode> right;
 	
@@ -26,8 +28,10 @@ class HuffmanNode
 	HuffmanNode & operator=(HuffmanNode && rhs) = default;
 	~HuffmanNode(void) = default; //Deconstructor
 	int getFrequency();
-	shared_ptr<HuffmanNode> getLeft();
-	shared_ptr<HuffmanNode> getRight();
+	char getLetter();
+	shared_ptr<HuffmanNode>& getLeft();
+	shared_ptr<HuffmanNode>& getRight();
+	string getCode();
 };	
 	
 	

@@ -16,9 +16,11 @@ namespace BRMALA003
 		frequency = f;
 		left=NULL;
 		right=NULL;
+		code = "";
 	} 
 	HuffmanNode::HuffmanNode(int f)
 	{
+		letter = 0;
 		frequency = f;
 		left=NULL;
 		right=NULL;
@@ -27,13 +29,21 @@ namespace BRMALA003
 	{
 		return this->frequency;
 	}
-	shared_ptr<HuffmanNode> HuffmanNode::getLeft()
+	shared_ptr<HuffmanNode>& HuffmanNode::getLeft()
 	{
-		return this->left;
+		return left;
 	}
-	shared_ptr<HuffmanNode> HuffmanNode::getRight()
+	shared_ptr<HuffmanNode>& HuffmanNode::getRight()
 	{
-		return this->right;
+		return right;
+	}
+	string HuffmanNode::getCode()
+	{
+		return code;
+	}
+	char HuffmanNode::getLetter()
+	{
+		return letter;
 	}
 	
 }
