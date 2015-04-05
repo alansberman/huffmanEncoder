@@ -9,12 +9,21 @@
 #include <fstream>
 #include <vector>
 #include "HuffmanTree.cpp"
+#include "CodeTable.cpp"
 #include "HuffmanNode.cpp"
+#include "FrequencyMap.cpp"
+//Unit test using "test.txt"
+//Contents of "test.txt":
+//a
+//bb
+//ccc
+//dddd
 using namespace std;
 int main(void)
 {
-	//Make a HuffmanTree
-	BRMALA003::HuffmanTree testTree = BRMALA003::HuffmanTree(BRMALA003::compare);		
+	BRMALA003::HuffmanTree testTree = BRMALA003::HuffmanTree(BRMALA003::compare);	
+	BRMALA003::CodeTable testTable = BRMALA003::CodeTable();	
+	BRMALA003::FrequencyMap testFrequencyMap = BRMALA003::FrequencyMap();
 	string buffer;
 	string output = "output1.dat";
 	ofstream out;
@@ -22,50 +31,18 @@ int main(void)
 	//using the input file
 	try 
 	{
-		unordered_map<char,int> testmap;
 		string inputFile = "test.txt";
-		char c;
-		ifstream i(inputFile.c_str());
-		cout << "Reading in the file to compress... (" << inputFile << ")" << endl;
-		cout << "Creating an unordered_map of the characters and their frequencies..." << endl;
-		while (!i.eof())
-		{
-			string line;
-			getline(i,line);
-			for (unsigned int i=0;i<line.length();i++)
-			{
-				c=line.at(i);
-				//Insert a new char into the map 
-				if (testmap.count(c)==0)
-				{				
-					testmap.insert({c,1});
-				}
-				else
-				{
-					//Add 1 to the frequency of the given char
-					//Adapted from http://www.cplusplus.com/reference/unordered_map/unordered_map/find/
-					unordered_map<char,int>::iterator found = testmap.find(c);
-					if (found==testmap.end())
-					{
-						cerr << "Didn't find char " << c << " in the map" << endl;
-					}
-					else
-					{
-						//Add to the frequency
-						found->second++;
-					}				
-				}				
-			}
-		}
-		cout << "Done!" << endl;
+		testFrequencyMap.createFrequencyTable(inputFile);
 		//Make HuffmanNodes using the unordered_map and add them to 
 		//the HuffmanTree's priority queue
 		cout << "Making HuffmanNodes using the unordered_map..." << endl;
 		cout << "Adding these nodes to the HuffmanTree's priority queue..." <<endl;
 		try 
 		{
-			for (auto it=testmap.begin();it!=testmap.end();++it)
+			cout << "------HuffmanNodes added to the Frequency Map------" << endl;
+			for (auto it=testFrequencyMap.getFrequencyMap().begin();it!=testFrequencyMap.getFrequencyMap().end();++it)
 			{
+				cout << it->first << " [character] | " << it->second << " [its frequency] " << endl;
 				BRMALA003::HuffmanNode node = BRMALA003::HuffmanNode(it->first,it->second);
 				testTree.getQueue().push(node);
 			}
@@ -84,44 +61,20 @@ int main(void)
 	//Until left with 1 node,take out the smallest 2 nodes,
 	//create a node whose left and right children are the nodes
 	//just taken out to make a tree of HuffmanNodes
-	cout << "Making a tree of nodes using the priority queue..." <<endl;
+	//Set the root node of the HuffmanTree
 	try 
 	{
-		while (testTree.getQueue().size()!=1)
-		{
-			BRMALA003::HuffmanNode topNode = testTree.getQueue().top();
-			shared_ptr<BRMALA003::HuffmanNode> left_ptr = make_shared<BRMALA003::HuffmanNode>(topNode);
-			testTree.getQueue().pop();		
-			if (testTree.getQueue().size()!=0)
-			{
-				BRMALA003::HuffmanNode secondFromTop = testTree.getQueue().top();
-				shared_ptr<BRMALA003::HuffmanNode> right_ptr = make_shared<BRMALA003::HuffmanNode>(secondFromTop);
-				testTree.getQueue().pop();
-				int sum_of_frequencies = topNode.getFrequency() + secondFromTop.getFrequency();
-				BRMALA003::HuffmanNode parent = BRMALA003::HuffmanNode(sum_of_frequencies);
-				parent.getLeft() = left_ptr;
-				parent.getRight() = right_ptr;
-				testTree.getQueue().push(parent);
-			}
-		}		
+		testTree.createTree(testTree.getQueue());
 	}
 	catch (int e)
 	{
 		cout << "Error - failed to create a tree of HuffmanNodes. " << endl;
 	}
-	cout << "Done!" << endl;
-	//Set the root node of the HuffmanTree and create the code table
 	cout << "Creating the code table..." <<endl;
 	try 
 	{
 		
-		BRMALA003::HuffmanNode rootNode = testTree.getQueue().top();
-		testTree.setRoot(rootNode);
-		testTree.createCodeTable(testTree.getRoot(),"");
-		for (auto i=testTree.getCodeTable().begin();i!=testTree.getCodeTable().end();++i)
-		{
-			buffer+=i->second;
-		}		
+		testTable.createCodeTable(testTree.getRoot(),"");	
 	}
 	catch (int e)
 	{
@@ -130,20 +83,36 @@ int main(void)
 	cout << "Done!" << endl;
 	//Write out to the specified output file the total number of unique characters,
 	//each character and its representation
+	testTable.setBuffer();
+	cout << "Buffer string: " << testTable.getBuffer() << endl;
 	cout << "Writing the code table out to the output file... (" << output << ")" << endl;
 	try 
 	{
 		out.open(output.c_str());
-		out << "Total number of unique characters: " << testTree.getCodeTable().size() << endl;
-		for (auto iterate=testTree.getCodeTable().begin();iterate!=testTree.getCodeTable().end();++iterate)
+		out << "Total number of unique characters: " << testTable.getCodeTable().size() << endl;
+		for (auto iterate=testTable.getCodeTable().begin();iterate!=testTable.getCodeTable().end();++iterate)
 		{
 			out << "Character: " << iterate->first << " | Representation: "  << iterate->second  << endl;	
 		}	
+		out.close();
 	}
 	catch (int e)
 	{
 		cout << "Error - failed to write the output file. " << endl;
 	}
+	/*try 
+	{
+		//Adapted from http://www.cplusplus.com/reference/string/string/c_str/
+		char * c_buffer = new char [testTable.getBuffer().length()+1];
+		//strcpy(c_buffer,code_table.getBuffer().c_str());	
+		out2.open(output2.c_str(), ios::out | ios::binary);
+		out2.write(c_buffer,testTable.getBuffer().c_str());
+	}
+	catch (int e)
+	{
+		cout << "Error - failed to write binary hdr file"
+	}	*/
 	cout << "Done!" << endl;
 	return 0;
 }
+

@@ -24,7 +24,7 @@ class CodeTable
 	//Copy and Move Assignment Operators
 	CodeTable & operator=(const CodeTable & rhs) = default;
 	CodeTable & operator=(CodeTable && rhs) = default;
-	~CodeTable(void) = default; //Deconstructor
+	~CodeTable(void) = default; //Destructor
 	unordered_map<char,string>& getCodeTable();
 	string& getBuffer();
 	void setBuffer();

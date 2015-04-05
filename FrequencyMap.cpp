@@ -8,6 +8,8 @@
 #include "FrequencyMap.h"
 namespace BRMALA003
 {
+	//Creates an unordered_map of each char in the given file and each
+	//char's frequency
 	void FrequencyMap::createFrequencyTable(string fileName)
 	{
 		string line;
@@ -51,6 +53,7 @@ namespace BRMALA003
 		}
 		cout << "Done!" << endl;
 	}
+	//Returns a reference to the map
 	unordered_map<char,int>& FrequencyMap::getFrequencyMap()
 	{
 		return frequencyMap;

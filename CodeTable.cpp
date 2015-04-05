@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <iostream>
 #include "CodeTable.h"
 #include "HuffmanNode.h"
 //Class that makes a code table using a HuffmanTree
@@ -20,7 +21,6 @@ namespace BRMALA003
 	}
 	//Recursive method that creates the code table,
 	//using inorder traversal of the HuffmanTree
-	
 	void CodeTable::createCodeTable(shared_ptr<HuffmanNode> nodeptr, string code)
 	{
 		//If the pointer to the node is not null
@@ -39,6 +39,7 @@ namespace BRMALA003
 			CodeTable::createCodeTable(nodeptr->getRight(),code+"1");
 		}
 	}
+	//Returns a reference to the buffer string
 	string& CodeTable::getBuffer()
 	{
 		return buffer;

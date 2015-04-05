@@ -22,12 +22,15 @@ class HuffmanNode
 	public:
 	HuffmanNode(char l, int f);
 	HuffmanNode(int f);
-	HuffmanNode(const HuffmanNode & rhs) = default; //Copy Constructor
-	HuffmanNode(HuffmanNode && rhs) = default; //Move Constructor
+	//Copy Constructor
+	HuffmanNode(const HuffmanNode & rhs);
+	//Move Constructor
+	HuffmanNode(HuffmanNode && rhs);
 	//Copy and Move Assignment Operators
-	HuffmanNode & operator=(const HuffmanNode & rhs) = default;
-	HuffmanNode & operator=(HuffmanNode && rhs) = default;
-	~HuffmanNode(void) = default; //Deconstructor
+	HuffmanNode & operator=(const HuffmanNode & rhs); 
+	HuffmanNode & operator=(HuffmanNode && rhs);
+	//Destructor
+	~HuffmanNode(void) = default; 
 	int getFrequency() const;
 	char getLetter();
 	shared_ptr<HuffmanNode>& getLeft();

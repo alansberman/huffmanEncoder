@@ -15,7 +15,6 @@ namespace BRMALA003 {
 using namespace std;
 //Via the 'Errata' CSC3022H announcement
 typedef bool(*fptr)(const HuffmanNode &,const HuffmanNode&);
-
 //Class that makes a HuffmanTree, containing a root node (which
 //points to a tree of HuffmanNodes, as well as a priority queue
 //of nodes used to construct the tree and a codeTable which stores
@@ -25,21 +24,16 @@ class HuffmanTree
 	private:
 	shared_ptr<HuffmanNode> root;
 	//Queue of HuffmanNodes using Comparator's compare method
-	priority_queue<HuffmanNode,vector<HuffmanNode>,fptr> q; //q(bool compare)
+	priority_queue<HuffmanNode,vector<HuffmanNode>,fptr> q;
 	unordered_map<char,string> codeTable;
 	public:
 	HuffmanTree(fptr compare); // Constructor
-	~HuffmanTree(void) = default; //Deconstructor
-	void setRoot(HuffmanNode h); //Finds the root node 
+	~HuffmanTree(void) = default; //Destructor
+	void setRoot(HuffmanNode h); //Sets the root node 
 	priority_queue<HuffmanNode,vector<HuffmanNode>,fptr>& getQueue();
 	shared_ptr<HuffmanNode> getRoot();
 	unordered_map<char,string>& getCodeTable();
-	void createCodeTable(shared_ptr<HuffmanNode> nodeptr, string code);
-
+	void createTree(priority_queue<HuffmanNode,vector<HuffmanNode>,fptr> q); 
 };	
-	
-	
-	
-	
 }
 #endif //HUFFMANTREE_H
